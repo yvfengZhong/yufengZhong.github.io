@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6621377767706184"
+     crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;yvfengzhong.github.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.3.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="@[TOC](Jetson Nano &amp; TX2配置教程)更新于2021年4月10日。本文介绍了Jetson Nano 和 Jetson TX2两种设备的配置教程，前一部分以Jetson Nano为例，后半部分以Jetson TX2为例。这两种设备的配置教程，大体上是相近的。 Jetson Nano 激活首先，拿到一张64GB&#x2F;128GB（12GB的卡不够用）的micro-SD">
+<meta property="og:type" content="article">
+<meta property="og:title" content="钟昱丰的博客">
+<meta property="og:url" content="https://yvfengzhong.github.io/2023/04/09/Jetson%20Nano%20&%20TX2%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="钟昱丰的博客">
+<meta property="og:description" content="@[TOC](Jetson Nano &amp; TX2配置教程)更新于2021年4月10日。本文介绍了Jetson Nano 和 Jetson TX2两种设备的配置教程，前一部分以Jetson Nano为例，后半部分以Jetson TX2为例。这两种设备的配置教程，大体上是相近的。 Jetson Nano 激活首先，拿到一张64GB&#x2F;128GB（12GB的卡不够用）的micro-SD">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-04-09T09:34:16.427Z">
+<meta property="article:modified_time" content="2023-04-09T09:34:16.427Z">
+<meta property="article:author" content="钟昱丰">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://yvfengzhong.github.io/2023/04/09/Jetson%20Nano%20&%20TX2%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;yvfengzhong.github.io&#x2F;2023&#x2F;04&#x2F;09&#x2F;Jetson%20Nano%20&amp;%20TX2%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B&#x2F;&quot;,&quot;path&quot;:&quot;2023&#x2F;04&#x2F;09&#x2F;Jetson Nano &amp; TX2配置教程&#x2F;&quot;,&quot;title&quot;:&quot;&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title> | 钟昱丰的博客</title><script src="/js/config.js"></script><script src="/lib/fireworks.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">钟昱丰的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Jetson-Nano-%E6%BF%80%E6%B4%BB"><span class="nav-number">1.</span> <span class="nav-text">Jetson Nano 激活</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Jetson-TX2-%E7%83%A7%E5%BD%95"><span class="nav-number">2.</span> <span class="nav-text">Jetson TX2 烧录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E5%9B%BD%E5%86%85%E6%BA%90"><span class="nav-number">3.</span> <span class="nav-text">更新系统国内源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%B3%BB%E7%BB%9F%E5%B7%A5%E5%85%B7jtop"><span class="nav-number">4.</span> <span class="nav-text">安装系统工具jtop</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8E%E6%BA%90%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91opencv"><span class="nav-number">5.</span> <span class="nav-text">从源代码编译opencv</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85archconda"><span class="nav-number">6.</span> <span class="nav-text">安装archconda</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85mmdetection"><span class="nav-number">7.</span> <span class="nav-text">安装mmdetection</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="钟昱丰"
+      src="/images/head1.jpg">
+  <p class="site-author-name" itemprop="name">钟昱丰</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yvfengzhong.github.io/2023/04/09/Jetson%20Nano%20&%20TX2%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head1.jpg">
+      <meta itemprop="name" content="钟昱丰">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="钟昱丰的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-04-09 17:34:16" itemprop="dateCreated datePublished" datetime="2023-04-09T17:34:16+08:00">2023-04-09</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>12k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>21 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>@[TOC](Jetson Nano &amp; TX2配置教程)<br>更新于2021年4月10日。本文介绍了Jetson Nano 和 Jetson TX2两种设备的配置教程，前一部分以Jetson Nano为例，后半部分以Jetson TX2为例。这两种设备的配置教程，大体上是相近的。</p>
+<h1 id="Jetson-Nano-激活"><a href="#Jetson-Nano-激活" class="headerlink" title="Jetson Nano 激活"></a>Jetson Nano 激活</h1><p>首先，拿到一张64GB&#x2F;128GB（12GB的卡不够用）的micro-SD card，并进行格式化。SD卡的格式化工具，直接从<a target="_blank" rel="noopener" href="https://www.sdcard.org/chs/downloads/formatter/index.html">官网</a>下载即可，使用时选择“快速格式化”。</p>
+<p>然后，从<a target="_blank" rel="noopener" href="https://developer.nvidia.com/zh-cn/embedded/jetpack#install">Nvidia官网</a>下载你需要的jetson nano镜像。</p>
+<p>注意确定安装的jetpack版本，这关系到其自带的cuda版本。简单来说，jetpack4.4以上，只能安装pytorch1.6以上<a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/pytorch-for-jetson-version-1-8-0-now-available/72048">PyTorch for Jetson - version 1.8.0 now available</a>。而且在pytorch1.6环境下保存的模型，没办法在更低版本的pytorch中打开。</p>
+<p>旧版本可以从官网<a target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/jetpack-archive">JetPack Archive</a>寻找。<br>最后，根据<a target="_blank" rel="noopener" href="https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit">Nvidia官网教程</a>完成镜像的烧录，大概需要半个小时的时间。</p>
+<h1 id="Jetson-TX2-烧录"><a href="#Jetson-TX2-烧录" class="headerlink" title="Jetson TX2 烧录"></a>Jetson TX2 烧录</h1><p>这里给出两个链接，一个是官网链接<a target="_blank" rel="noopener" href="https://docs.nvidia.com/sdk-manager/install-with-sdkm-jetson/index.html">使用SDK Manager安装Jetson软件</a>，另一个是知乎上的链接<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/94071423">Jetson TX2 入门教程（镜像烧写）</a>。</p>
+<h1 id="更新系统国内源"><a href="#更新系统国内源" class="headerlink" title="更新系统国内源"></a>更新系统国内源</h1><p>在使用系统之前，我们先将系统更换为国内安装源。<br>首先，备份source.list。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">cp</span> /etc/apt/sources.list /etc/apt/sources.list.bak</span><br></pre></td></tr></table></figure>
+<p>然后，修改source.list。推荐用gedit，十分方便。如果没有安装的话，需要先安装一下。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt<span class="literal">-get</span> install gedit</span><br><span class="line">sudo gedit /etc/apt/sources.list</span><br></pre></td></tr></table></figure>
+<p>接着，替换list中的内容。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu<span class="literal">-ports</span>/ bionic main multiverse restricted universe</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu<span class="literal">-ports</span>/ bionic<span class="literal">-security</span> main multiverse restricted universe</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu<span class="literal">-ports</span>/ bionic<span class="literal">-updates</span> main multiverse restricted universe</span><br><span class="line">deb http://mirrors.tuna.tsinghua.edu.cn/ubuntu<span class="literal">-ports</span>/ bionic<span class="literal">-backports</span> main multiverse restricted universe</span><br><span class="line">deb<span class="literal">-src</span> http://mirrors.tuna.tsinghua.edu.cn/ubuntu<span class="literal">-ports</span>/ bionic main multiverse restricted universe</span><br><span class="line">deb<span class="literal">-src</span> http://mirrors.tuna.tsinghua.edu.cn/ubuntu<span class="literal">-ports</span>/ bionic<span class="literal">-security</span> main multiverse restricted universe</span><br><span class="line">deb<span class="literal">-src</span> http://mirrors.tuna.tsinghua.edu.cn/ubuntu<span class="literal">-ports</span>/ bionic<span class="literal">-updates</span> main multiverse restricted universe</span><br><span class="line">deb<span class="literal">-src</span> http://mirrors.tuna.tsinghua.edu.cn/ubuntu<span class="literal">-ports</span>/ bionic<span class="literal">-backports</span> main multiverse restricted universe</span><br></pre></td></tr></table></figure>
+<p>最后，更新软件。update和upgrade的区别可以参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/fenglongyu/p/8654991.html">linux命令系列 sudo apt-get update和upgrade的区别</a>。<br>这一步可能需要花一段时间。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt<span class="literal">-get</span> update </span><br><span class="line">sudo apt<span class="literal">-get</span> upgrade </span><br></pre></td></tr></table></figure>
+
+<h1 id="安装系统工具jtop"><a href="#安装系统工具jtop" class="headerlink" title="安装系统工具jtop"></a>安装系统工具jtop</h1><p>Jetson Nano中有个工具jtop, 可以查看CPU和GPU资源，还可以显示系统的jetpack版本，十分好用。<br>首先，安装pip3.</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt<span class="literal">-get</span> install python3<span class="literal">-pip</span></span><br></pre></td></tr></table></figure>
+
+<p>同样的，我们也可以将pip修改为国内源。<br>第一种方式，长期修改。我以阿里源为例，其他国内源只需要修改链接即可。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip3 config <span class="built_in">set</span> global.index-url https://mirrors.aliyun.com/pypi/simple/</span><br></pre></td></tr></table></figure>
+
+<p>然后，使用pip安装jetson-stats。<br>第二种方式，一次性修改。我以清华源为例，其他国内源只需要修改链接即可。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo pip3 install jetson<span class="literal">-stats</span> <span class="literal">-i</span> https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<p>安装好之后，我们来看一下效果如何。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo jtop</span><br></pre></td></tr></table></figure>
+
+<h1 id="从源代码编译opencv"><a href="#从源代码编译opencv" class="headerlink" title="从源代码编译opencv"></a>从源代码编译opencv</h1><p>刷机后的Nano已经预装了opencv，但是预装版本不支持CUDA，所以我们还要在Jetson Nano上手动安装OpenCV。</p>
+<p><strong>方法一</strong><br>安装已编译的opencv，简单方便，但是这个版本过低，且不能指定其他版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install opencv-python</span><br></pre></td></tr></table></figure>
+<p><strong>方法二</strong><br>从源代码安装，但是使用别人写好的脚本，如<a target="_blank" rel="noopener" href="https://github.com/jetsonhacks/buildOpenCVXavier">buildOpenCVXavier</a>，<a target="_blank" rel="noopener" href="https://github.com/mdegans/nano_build_opencv">nano_build_opencv</a>。但是报错之后，可能不知道自己为什么错了，因为脚本不是你自己写的。</p>
+<p><strong>方法三</strong><br>自己从源代码编译安装，有很多坑要踩啊。<br>不能先安装archconda等虚拟环境管理包，否则会有问题！参考<a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/install-opencv-for-python3-in-jetson-nano/74042">在Jetson Nano中为python3安装OpenCV</a></p>
+<ol>
+<li>增加交换空间</li>
+</ol>
+<p>opencv的编译时生成的中间文件很大，Jetson Nano原始空间放不下。这里介绍一种永久生效的方法。要是只想临时生效，可以参考<a target="_blank" rel="noopener" href="https://qengineering.eu/install-opencv-4.5-on-jetson-nano.html">Enlarge memory swap</a>。</p>
+<p>查看当前系统的交换空间。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo swapon --show</span><br></pre></td></tr></table></figure>
+<p>查看内存大小。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">free -h</span><br></pre></td></tr></table></figure>
+
+<p>创建用于swap的文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fallocate -l 2G /swapfile</span><br></pre></td></tr></table></figure>
+
+<p>设置交换空间。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkswap /swapfile</span><br></pre></td></tr></table></figure>
+
+<p>激活交换空间。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo swapon /swapfile</span><br><span class="line"><span class="comment">#为了使这个激活永久有效</span></span><br><span class="line">sudo gedit /etc/fstab</span><br><span class="line"><span class="comment">#粘贴 /swapfile swap swap defaults 0 0</span></span><br></pre></td></tr></table></figure>
+<p>验证增加空间是否有效。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo swapon --show</span><br><span class="line">sudo free -h</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装依赖项<br> 这个依赖项的要求五花八门，取决于你对功能的要求，这里我只给出我使用的依赖项，参考<a target="_blank" rel="noopener" href="https://pythops.com/post/compile-deeplearning-libraries-for-jetson-nano">compile deeplearning libraries for jetson nano</a>。如果遇到包冲突问题，参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/klcf0220/p/10242810.html">aptitude与apt-get</a>解决。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">dependencies=(build-essential</span><br><span class="line">              cmake</span><br><span class="line">              pkg-config</span><br><span class="line">              libavcodec-dev</span><br><span class="line">              libavformat-dev</span><br><span class="line">              libopenblas-base</span><br><span class="line">              libopenmpi-dev</span><br><span class="line">              libswscale-dev</span><br><span class="line">              libv4l-dev</span><br><span class="line">              libxvidcore-dev</span><br><span class="line">              libavresample-dev</span><br><span class="line">              python3-dev</span><br><span class="line">              python3-numpy</span><br><span class="line">              libtbb2</span><br><span class="line">              libtbb-dev</span><br><span class="line">              libtiff-dev</span><br><span class="line">              libjpeg-dev</span><br><span class="line">              libpng-dev</span><br><span class="line">              libtiff-dev</span><br><span class="line">              libdc1394-22-dev</span><br><span class="line">              libgtk-3-dev</span><br><span class="line">              libcanberra-gtk3-module</span><br><span class="line">              libatlas-base-dev</span><br><span class="line">              gfortran</span><br><span class="line">              wget</span><br><span class="line">              unzip)</span><br><span class="line"></span><br><span class="line">sudo apt install -y <span class="variable">$&#123;dependencies[@]&#125;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>下载源代码<br>安装所有第三方依赖项后，我们就需要下载OpenCV啦。需要两个压缩包：基本库和其他拓展库。在<a target="_blank" rel="noopener" href="https://opencv.org/releases/">opencv官网</a>下载你需要的版本。这里以4.4.0版本为例。</li>
+</ol>
+<p>在github网址下载opencv-4.4.0.zip，复制下面的网址，在浏览器直接下载。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/opencv/opencv/archive/4.4.0.zip</span><br></pre></td></tr></table></figure>
+<p>在github网址下载opencv_contrib-4.4.0.zip，复制下面的网址，在浏览器直接下载。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://github.com/opencv/opencv_contrib/archive/4.4.0.zip</span><br></pre></td></tr></table></figure>
+<p>对下载后的opencv-4.4.0.zip和opencv_contrib-4.4.0.zip进行解压缩。<br>在opencv-4.4.0文件夹下打开命令行，新建一个build文件夹，并切换到build文件夹下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> build</span><br><span class="line"><span class="built_in">cd</span> build</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>编写cmake配置文件my_cmake.sh<br>这里是对opencv和cuda做的一些配置，和依赖库一样也是五花八门，看你的需求吧。这里我给出自己的配置，仅供参考。</li>
+</ol>
+<p>新建脚本文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gedit my_cmake.sh</span><br></pre></td></tr></table></figure>
+<p>粘贴cmake命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">cmake -D CMAKE_BUILD_TYPE=RELEASE \</span><br><span class="line">     -D WITH_CUDA=ON \</span><br><span class="line">     -D CUDA_ARCH_PTX=<span class="string">&quot;&quot;</span> \</span><br><span class="line">     -D CUDA_ARCH_BIN=<span class="string">&quot;5.3,6.2,7.2&quot;</span> \</span><br><span class="line">     -D WITH_CUBLAS=ON \</span><br><span class="line">     -D WITH_LIBV4L=ON \</span><br><span class="line">     -D BUILD_opencv_python3=ON \</span><br><span class="line">     -D BUILD_opencv_python2=OFF \</span><br><span class="line">     -D BUILD_opencv_java=OFF \</span><br><span class="line">     -D WITH_GSTREAMER=OFF \</span><br><span class="line">     -D WITH_GTK=ON \</span><br><span class="line">     -D BUILD_TESTS=OFF \</span><br><span class="line">     -D BUILD_PERF_TESTS=OFF \</span><br><span class="line">     -D BUILD_EXAMPLES=OFF \</span><br><span class="line">     -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib-4.4.0/modules \</span><br><span class="line">     ..</span><br></pre></td></tr></table></figure>
+<p>具体每个选项的介绍，可以参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40784980/article/details/105246509">Jetson Nano 从头配置OpenCV+CUDA+QT完整流程</a>。</p>
+<p>执行make命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh ./my_cmake.sh</span><br></pre></td></tr></table></figure>
+
+<p>在我们进入实际编译步骤之前，请确保检查CMake的输出！参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27971677/article/details/90400118">树莓派安装OpenCV-4.1.0及Contrib</a></p>
+<ol start="5">
+<li>开始构建<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ make -j4</span><br></pre></td></tr></table></figure>
+-j4表示4个CPU核心同时运行。<br>查看CPU核心数，参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/12109868.html">Ubuntu 18.04配置OpenCV 4.2.0</a>。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">nproc</span></span><br></pre></td></tr></table></figure>
+
+<p>经过漫长的等待，约两小时。<br>可能遇到错误，这是网络问题导致部分依赖包没有下载。<br><strong>错误一</strong><br>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40784980/article/details/105246509">Jetson Nano 从头配置OpenCV+CUDA+QT完整流程</a>中相关部分的解决方案。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal error: boostdesc_bgm.i: No such file or directory</span><br></pre></td></tr></table></figure>
+<p><strong>错误二</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal error: opencv2/xfeatures2d/cuda.hpp: No such file or directory</span><br></pre></td></tr></table></figure>
+<p>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/hongge_smile/article/details/104372783?utm_medium=distribute.pc_relevant_bbs_down.none-task-blog-baidujs-2.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task-blog-baidujs-2.nonecase">opencv安装opencv_contrib出现无法打开包括文件: “opencv2&#x2F;xfeatures2d&#x2F;cuda.hpp”</a>中的解决方案。记得加在最开始，不要加在最后面！</p>
+<p><strong>错误三</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">CMakeFiles/example_gpu_surf_keypoint_matcher.dir/surf_keypoint_matcher.cpp.o: In <span class="keyword">function</span> `main<span class="string">&#x27;:</span></span><br><span class="line"><span class="string">surf_keypoint_matcher.cpp:(.text.startup.main+0x352): undefined reference to `cv::cuda::SURF_CUDA::SURF_CUDA()&#x27;</span></span><br><span class="line">surf_keypoint_matcher.cpp:(.text.startup.main+0x579): undefined reference to `cv::cuda::SURF_CUDA::operator()(cv::cuda::GpuMat const&amp;, cv::cuda::GpuMat const&amp;, cv::cuda::GpuMat&amp;, cv::cuda::GpuMat&amp;, bool)<span class="string">&#x27;</span></span><br><span class="line"><span class="string">surf_keypoint_matcher.cpp:(.text.startup.main+0x60d): undefined reference to `cv::cuda::SURF_CUDA::operator()(cv::cuda::GpuMat const&amp;, cv::cuda::GpuMat const&amp;, cv::cuda::GpuMat&amp;, cv::cuda::GpuMat&amp;, bool)&#x27;</span></span><br><span class="line">surf_keypoint_matcher.cpp:(.text.startup.main+0x6af): undefined reference to `cv::cuda::SURF_CUDA::defaultNorm() const<span class="string">&#x27;</span></span><br><span class="line"><span class="string">surf_keypoint_matcher.cpp:(.text.startup.main+0x7ca): undefined reference to `cv::cuda::SURF_CUDA::downloadKeypoints(cv::cuda::GpuMat const&amp;, std::vector&lt;cv::KeyPoint, std::allocator&lt;cv::KeyPoint&gt; &gt;&amp;)&#x27;</span></span><br><span class="line">surf_keypoint_matcher.cpp:(.text.startup.main+0x7ea): undefined reference to `cv::cuda::SURF_CUDA::downloadKeypoints(cv::cuda::GpuMat const&amp;, std::vector&lt;cv::KeyPoint, std::allocator&lt;cv::KeyPoint&gt; &gt;&amp;)<span class="string">&#x27;</span></span><br><span class="line"><span class="string">surf_keypoint_matcher.cpp:(.text.startup.main+0x800): undefined reference to `cv::cuda::SURF_CUDA::downloadDescriptors(cv::cuda::GpuMat const&amp;, std::vector&lt;float, std::allocator&lt;float&gt; &gt;&amp;)&#x27;</span></span><br><span class="line">surf_keypoint_matcher.cpp:(.text.startup.main+0x812): undefined reference to `cv::cuda::SURF_CUDA::downloadDescriptors(cv::cuda::GpuMat const&amp;, std::vector&lt;<span class="built_in">float</span>, std::allocator&lt;<span class="built_in">float</span>&gt; &gt;&amp;)<span class="string">&#x27;</span></span><br><span class="line"><span class="string">collect2: error: ld returned 1 exit status</span></span><br><span class="line"><span class="string">samples/gpu/CMakeFiles/example_gpu_surf_keypoint_matcher.dir/build.make:132: recipe for target &#x27;</span>bin/example_gpu_surf_keypoint_matcher<span class="string">&#x27; failed</span></span><br><span class="line"><span class="string">make[2]: *** [bin/example_gpu_surf_keypoint_matcher] Error 1</span></span><br></pre></td></tr></table></figure>
+
+<p>参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/GungnirsPledge/article/details/108597474#5CMakeFilesexample_gpu_surf_keypoint_matcherdirsurf_keypoint_matchercppo_In_function_main_252">源码编译安装OpenCV4.5+ CUDA11 带python 遇到的错误总结</a>中的解决方案。</p>
+<ol start="6">
+<li>安装</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>验证</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ python3 -c <span class="string">&quot;import cv2; print(cv2.__version__)&quot;</span></span><br><span class="line">4.4.0</span><br></pre></td></tr></table></figure>
+
+<h1 id="安装archconda"><a href="#安装archconda" class="headerlink" title="安装archconda"></a>安装archconda</h1><p>anaconda是深度学习的好工具。在arm64框架平台上，对应有一个archconda，是大神编译好的工具，我们可以直接使用。<br>从大神<a target="_blank" rel="noopener" href="https://github.com/Archiconda/build-tools/releases">github网址</a>上下载sh文件，然后就像在普通linux上安装即可。</p>
+<p>如果需要在虚拟环境中使用opencv，有两种方法。<br><strong>方法一</strong><br>链接，参考<a target="_blank" rel="noopener" href="https://www.bojankomazec.com/2019/12/installing-opencv-4-on-nvidia-jetson.html">Installing OpenCV 4 on NVIDIA Jetson Nano</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Go to the folder where OpenCV&#x27;s native library is built</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/lib/python3.6/site-packages/cv2/python-3.6</span><br><span class="line"><span class="comment"># Rename</span></span><br><span class="line"><span class="built_in">mv</span> cv2.cpython-36m-xxx-linux-gnu.so cv2.so</span><br><span class="line"><span class="comment"># Go to your virtual environments site-packages folder if previously set</span></span><br><span class="line"><span class="built_in">cd</span> ~/env/lib/python3.6/site-packages/</span><br><span class="line"><span class="comment"># Or just go to your home folder if not set a venv site-packages folder</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line"><span class="comment"># Symlink the native library</span></span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/lib/python3.6/site-packages/cv2/python-3.6/cv2.so cv2.so</span><br></pre></td></tr></table></figure>
+
+<p><strong>方法二</strong><br>拷贝，参考<a target="_blank" rel="noopener" href="https://github.com/mdegans/nano_build_opencv/issues/32">How to check for successful install including in virtualenv. #32</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Go to the folder where OpenCV&#x27;s native library is built</span></span><br><span class="line"><span class="built_in">cd</span> /usr/local/lib/python3.6/site-packages/cv2/python-3.6</span><br><span class="line"><span class="comment"># copy</span></span><br><span class="line"><span class="built_in">cp</span> usr/local/lib/python3.6/site-packages/cv2/python-3.6 [path to venv]/lib/python3.6/site-packages/cv2/python-3.6</span><br></pre></td></tr></table></figure>
+
+<p>在虚拟环境中导入cv2，可能会遇到下面一个错误。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from .cv2 import *</span><br><span class="line">ImportError: numpy.core.multiarray failed to import</span><br></pre></td></tr></table></figure>
+<p>这主要是在编译opencv的时候使用的numpy，和虚拟环境中安装的numpy版本不一致，根据安装时的numpy版本修改一下即可，参考<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/280702247">cv2: numpy.core.multiarray failed to import</a>。<br>查看编译opencv的时候使用的numpy版本，可以进入系统自带的python环境，输出numpy版本号。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import numpy</span><br><span class="line">&gt;&gt;&gt; <span class="built_in">print</span>(numpy.__version__)</span><br></pre></td></tr></table></figure>
+
+<p>还有可能遇到另一个问题。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import numpy</span><br><span class="line">&gt;&gt;&gt; Illegal instruction (core dumped)</span><br></pre></td></tr></table></figure>
+<p>这是numpy版本的问题，将numpy&#x3D;1.19.5降级到numpy&#x3D;1.19.4或更低版本即可，参考<a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/illegal-instruction-core-dumped/165488">Illegal instruction (core dumped)</a></p>
+<h1 id="安装mmdetection"><a href="#安装mmdetection" class="headerlink" title="安装mmdetection"></a>安装mmdetection</h1><p>这一部分使用的是Jetson TX2，参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_24282081/article/details/107285072#STEP1%20%E5%AE%89%E8%A3%85pytorch%C2%A0">在Jetson tx2安装 mmdetection环境</a>。</p>
+<p>这里我遇到了一个小问题，TX2接上网线但是连不上网，解决方法参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/tao_fuqiang/article/details/79741317">Jetson TX2 有线网络网线不识别,灯不亮问题</a>。</p>
+<p>其实，安装完opencv后，要运行mmdetection的代码，还有4个重要的包需要安装：torch，torchvision，mmcv-full，mmdet。</p>
+<ol>
+<li>安装torch</li>
+</ol>
+<p>去NVIDIA官网下载配套的版本<a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/pytorch-for-jetson-version-1-7-0-now-available/72048">PyTorch for Jetson - version 1.7.0 now available</a>，这一步需要翻墙。<br>注意查看自己的Jetpack版本号，4.4要用torch1.6，否则会报错cudnn版本不合适。<br>查看Jetson设备的信息可以用之前提到的jtop，也可以使用<a target="_blank" rel="noopener" href="http://www.gpus.cn/gpus_list_page_techno_support_content?id=39">查询Jetson设备与开发环境版本的基础信息</a>。<br>下载好pytorch之后，激活虚拟环境，使用pip命令安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install torch-1.6.0-cp36-cp36m-linux_aarch64.whl</span><br></pre></td></tr></table></figure>
+
+<p>有可能遇到问题</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OSError: libmpi_cxx.so<span class="number">.20</span>: cannot <span class="built_in">open</span> shared <span class="built_in">object</span> file: No such file <span class="keyword">or</span> directory</span><br></pre></td></tr></table></figure>
+<p>参考<a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/cannot-install-pytorch/149226">Cannot install pytorch</a>，安装两个依赖。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libopenblas-base libopenmpi-dev </span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安装torchvision</li>
+</ol>
+<p>需要根据torch版本来选择对应版本的torchvision进行安装，参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/afc502b5a67d">Jetson Nano 安装torch和torchvision</a>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> --branch v0.7.0 https://github.com/pytorch/vision torchvision</span><br><span class="line"><span class="built_in">cd</span> torchvision</span><br><span class="line"><span class="built_in">export</span> BUILD_VERSION=0.7.0</span><br><span class="line">sudo python setup.py install</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装mmcv-full和mmdet</li>
+</ol>
+<p>这里的教程跟<a target="_blank" rel="noopener" href="https://github.com/open-mmlab/mmdetection/blob/master/docs/get_started.md">mmdetection官方教程</a>来走就好了。</p>
+<p>安装mmcv-full</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/open-mmlab/mmcv.git</span><br><span class="line"><span class="built_in">cd</span> mmcv</span><br><span class="line">MMCV_WITH_OPS=1 pip install -e .  <span class="comment"># 安装full版本</span></span><br></pre></td></tr></table></figure>
+
+<p>安装mmdetection</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/open-mmlab/mmdetection.git</span><br><span class="line"><span class="built_in">cd</span> mmdetection</span><br><span class="line">pip install -r requirements/build.txt</span><br><span class="line">pip install -v -e .</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意</strong>：</p>
+<ul>
+<li>mmcv-full和mmdet的版本号要对应，官方教程已经给出来了对应关系。</li>
+<li>安装mmcv-full，而不是mmcv，否则后面可能会有奇怪的错误。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MMCV_WITH_OPS=1 pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在使用pip命令时，后面跟上国内源，这样下载其他依赖包会更快一些。</li>
+<li>上面两个包安装完，也要花挺长时间的。</li>
+<li>有可能遇到安装matplotlib，scipy，pillow等包的时候，与已经安装的numpy版本冲突。这种情况下不能修改numpy的版本，要修改其他包的版本。</li>
+<li>可以使用下面这条命令，查看哪个版本的包时候你的numpy，包和版本号可以更改，参考<a target="_blank" rel="noopener" href="https://www.cnblogs.com/DLarTisan/p/11749043.html">conda查看某个安装包的依赖项</a>。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda search scipy=1.0.0 -info</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>测试</li>
+</ol>
+<p>按照官网的代码，做了一些修改。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mmdet.apis <span class="keyword">import</span> inference_detector, init_detector, show_result_pyplot</span><br><span class="line"></span><br><span class="line">config_file = <span class="string">&#x27;configs/faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py&#x27;</span></span><br><span class="line"><span class="comment"># download the checkpoint from model zoo and put it in `checkpoints/`</span></span><br><span class="line"><span class="comment"># url: http://download.openmmlab.com/mmdetection/v2.0/faster_rcnn/faster_rcnn_r50_fpn_1x_coco/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth</span></span><br><span class="line">checkpoint_file = <span class="string">&#x27;checkpoints/faster_rcnn_r50_fpn_1x_coco_20200130-047c8118.pth&#x27;</span></span><br><span class="line">device = <span class="string">&#x27;cuda:0&#x27;</span></span><br><span class="line"><span class="comment"># init a detector</span></span><br><span class="line">model = init_detector(config_file, checkpoint_file, device=device)</span><br><span class="line"><span class="comment"># inference the demo image</span></span><br><span class="line">result = inference_detector(model, <span class="string">&#x27;demo/demo.jpg&#x27;</span>)</span><br><span class="line"><span class="comment"># show the results</span></span><br><span class="line">show_result_pyplot(model, <span class="string">&#x27;demo/demo.jpg&#x27;</span>, result, score_thr=<span class="number">0.3</span>)</span><br></pre></td></tr></table></figure>
+
+
+<p><strong>参考</strong><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u011119817/article/details/99679350">【Jetson-Nano】jetson_nano安装环境配置及tensorflow和pytorch安装教程</a><br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6dbf979533ca">Jetson Nano配置与使用（1）开机</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/64868319">在Jetson Nano (TX1&#x2F;TX2)上使用Anaconda与PyTorch 1.1.0</a><br><a target="_blank" rel="noopener" href="https://qengineering.eu/install-opencv-4.5-on-jetson-nano.html">Install OpenCV 4.5.0 on Jetson Nano</a><br><a target="_blank" rel="noopener" href="https://pythops.com/post/compile-deeplearning-libraries-for-jetson-nano">compile deeplearning libraries for jetson nano</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fenglongyu/p/8654991.html">linux命令系列 sudo apt-get update和upgrade的区别</a><a target="_blank" rel="noopener" href="https://github.com/jetsonhacks/buildOpenCVXavier">buildOpenCVXavier</a><br><a target="_blank" rel="noopener" href="https://github.com/mdegans/nano_build_opencv">nano_build_opencv</a><br><a target="_blank" rel="noopener" href="https://forums.developer.nvidia.com/t/install-opencv-for-python3-in-jetson-nano/74042">在Jetson Nano中为python3安装OpenCV</a><br><a target="_blank" rel="noopener" href="https://www.bojankomazec.com/2019/12/installing-opencv-4-on-nvidia-jetson.html">Installing OpenCV 4 on NVIDIA Jetson Nano</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_40784980/article/details/105246509">Jetson Nano 从头配置OpenCV+CUDA+QT完整流程</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27971677/article/details/90400118">树莓派安装OpenCV-4.1.0及Contrib</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/chenzhen0530/p/12109868.html">Ubuntu 18.04配置OpenCV 4.2.0</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/hongge_smile/article/details/104372783?utm_medium=distribute.pc_relevant_bbs_down.none-task-blog-baidujs-2.nonecase&depth_1-utm_source=distribute.pc_relevant_bbs_down.none-task-blog-baidujs-2.nonecase">opencv安装opencv_contrib出现无法打开包括文件: “opencv2&#x2F;xfeatures2d&#x2F;cuda.hpp”</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/GungnirsPledge/article/details/108597474#5CMakeFilesexample_gpu_surf_keypoint_matcherdirsurf_keypoint_matchercppo_In_function_main_252">源码编译安装OpenCV4.5+ CUDA11 带python 遇到的错误总结</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/280702247">cv2: numpy.core.multiarray failed to import</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_24282081/article/details/107285072#STEP1%20%E5%AE%89%E8%A3%85pytorch%C2%A0">在Jetson tx2安装 mmdetection环境</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/04/09/linux%E4%B8%8Btensorflow%E4%B8%8Ecuda%E7%89%88%E6%9C%AC%E4%B8%8D%E5%85%BC%E5%AE%B9%E9%97%AE%E9%A2%98%EF%BC%8CImportError_%20libcublas.so.10.0_%20cannot%20open%20shared%20object%20file/" rel="prev" title="">
+                  <i class="fa fa-chevron-left"></i> 
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/09/Mac%E4%BD%BF%E7%94%A8ssh%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E5%88%B0%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">钟昱丰</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">69k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:05</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

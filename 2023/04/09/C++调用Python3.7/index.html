@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6621377767706184"
+     crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;yvfengzhong.github.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Gemini&quot;,&quot;version&quot;:&quot;8.3.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="@TOC 前言最近在做一个项目，涉及到了如何用C#调用Python文件。汇总了一下网上找来的资料，具体参考了这篇博客c#调用python的四种方法（尝试了四种，只详细讲解本人成功的后两种，其余方法只列出，详细用法请自行谷歌百度）。对于第一种方法，使用IronPython2.7的方法，我找到了更详细的博客C#如何调用Python执行脚本，并将执行结果显示值显示至C#界面，不过Python2.7可能无">
+<meta property="og:type" content="article">
+<meta property="og:title" content="钟昱丰的博客">
+<meta property="og:url" content="https://yvfengzhong.github.io/2023/04/09/C++%E8%B0%83%E7%94%A8Python3.7/index.html">
+<meta property="og:site_name" content="钟昱丰的博客">
+<meta property="og:description" content="@TOC 前言最近在做一个项目，涉及到了如何用C#调用Python文件。汇总了一下网上找来的资料，具体参考了这篇博客c#调用python的四种方法（尝试了四种，只详细讲解本人成功的后两种，其余方法只列出，详细用法请自行谷歌百度）。对于第一种方法，使用IronPython2.7的方法，我找到了更详细的博客C#如何调用Python执行脚本，并将执行结果显示值显示至C#界面，不过Python2.7可能无">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019081916113616.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/201908191614311.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190819161713384.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2019081916354339.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190819163559667.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2023-04-09T09:33:51.344Z">
+<meta property="article:modified_time" content="2023-04-09T10:05:32.537Z">
+<meta property="article:author" content="钟昱丰">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/2019081916113616.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70">
+
+
+<link rel="canonical" href="https://yvfengzhong.github.io/2023/04/09/C++%E8%B0%83%E7%94%A8Python3.7/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;yvfengzhong.github.io&#x2F;2023&#x2F;04&#x2F;09&#x2F;C++%E8%B0%83%E7%94%A8Python3.7&#x2F;&quot;,&quot;path&quot;:&quot;2023&#x2F;04&#x2F;09&#x2F;C++调用Python3.7&#x2F;&quot;,&quot;title&quot;:&quot;&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title> | 钟昱丰的博客</title><script src="/js/config.js"></script><script src="/lib/fireworks.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">钟昱丰的博客</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">配置环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%8E%A7%E5%88%B6%E5%8F%B0%E9%A1%B9%E7%9B%AE%EF%BC%8C%E4%BF%AE%E6%94%B9%E5%B1%9E%E6%80%A7%E9%A1%B5"><span class="nav-number">2.1.</span> <span class="nav-text">第一步新建一个控制台项目，修改属性页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%E4%BF%AE%E6%94%B9Python%E5%AE%89%E8%A3%85%E7%9B%AE%E5%BD%95%E4%B8%8B%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text">第二步修改Python安装目录下文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%B5%8B%E8%AF%95"><span class="nav-number">3.</span> <span class="nav-text">代码测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8Python3%E8%AF%AD%E6%B3%95%E8%BE%93%E5%87%BA%E2%80%9CHello-World%EF%BC%81%E2%80%9D"><span class="nav-number">3.1.</span> <span class="nav-text">测试用Python3语法输出“Hello World！”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%94%A8Python%E6%96%87%E4%BB%B6%E8%BE%93%E5%87%BA%E2%80%9CHello-World%EF%BC%81%E2%80%9D"><span class="nav-number">3.2.</span> <span class="nav-text">测试用Python文件输出“Hello World！”</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%93%E5%B0%BE"><span class="nav-number">4.</span> <span class="nav-text">结尾</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%95%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">引用</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="钟昱丰"
+      src="/images/head1.jpg">
+  <p class="site-author-name" itemprop="name">钟昱丰</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://yvfengzhong.github.io/2023/04/09/C++%E8%B0%83%E7%94%A8Python3.7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head1.jpg">
+      <meta itemprop="name" content="钟昱丰">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="钟昱丰的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-04-09 17:33:51 / 修改时间：18:05:32" itemprop="dateCreated datePublished" datetime="2023-04-09T17:33:51+08:00">2023-04-09</time>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+      </div>
+      <div class="post-meta">
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>@<a href="C++%E8%B0%83%E7%94%A8Python3.7">TOC</a></p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在做一个项目，涉及到了如何用C#调用Python文件。汇总了一下网上找来的资料，具体参考了这篇博客<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42063091/article/details/82418630">c#调用python的四种方法（尝试了四种，只详细讲解本人成功的后两种，其余方法只列出，详细用法请自行谷歌百度）</a>。<br>对于第一种方法，使用IronPython2.7的方法，我找到了更详细的博客<a target="_blank" rel="noopener" href="https://blog.csdn.net/cw19901024/article/details/73526402">C#如何调用Python执行脚本，并将执行结果显示值显示至C#界面</a>，不过Python2.7可能无法满足我们项目的需求，当然我也找到了类似的另外两种可以使用Python3的方法，还没有试过，在这里提供给大家参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/Micusd/article/details/81605593">C#使用公共语言拓展（CLE）调用Python3（使用TensorFlow训练的模型）</a>、<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42388228/article/details/89681870">pythonnet c#调用并集成python代码</a>。<br>对于第三和第四种方法，因为要使用命令行窗口，而且还要考虑不同用户的python安装情况如何，在项目实际使用时效果肯定是很不好的，所以在这里不做过多的介绍，原博主也给出了他自己的源代码，大家可以自己尝试一下。<br>重点说一下第二种方法。我在CSDN上找了好多博客，大家的方法都大同小异，可能真的是看人品吧，我试了好几次都失败了，最后在朋友的帮助下才成功……</p>
+<h1 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h1><p>这里先说一下，我是win10+VS2017+Python3.7.4。</p>
+<h2 id="第一步新建一个控制台项目，修改属性页"><a href="#第一步新建一个控制台项目，修改属性页" class="headerlink" title="第一步新建一个控制台项目，修改属性页"></a>第一步新建一个控制台项目，修改属性页</h2><p>选择Debug|x64<br><img src="https://img-blog.csdnimg.cn/2019081916113616.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">第一个修改的是C&#x2F;C++——常规——附加包含目录：添加你所安装的Python目录下的include目录路径。<br><img src="https://img-blog.csdnimg.cn/201908191614311.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述">第二个修改的是链接器——常规——附加库目录：添加你所安装的Python目录下的libs目录路径。</p>
+<h2 id="第二步修改Python安装目录下文件"><a href="#第二步修改Python安装目录下文件" class="headerlink" title="第二步修改Python安装目录下文件"></a>第二步修改Python安装目录下文件</h2><p><img src="https://img-blog.csdnimg.cn/20190819161713384.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>找到Python安装目录，找到libs目录复制python37.lib到本目录，改名为python37_d.lib。</p>
+<h1 id="代码测试"><a href="#代码测试" class="headerlink" title="代码测试"></a>代码测试</h1><p>现在我们可以来简单测试一下</p>
+<h2 id="测试用Python3语法输出“Hello-World！”"><a href="#测试用Python3语法输出“Hello-World！”" class="headerlink" title="测试用Python3语法输出“Hello World！”"></a>测试用Python3语法输出“Hello World！”</h2><p>我们定义一个print()，里面用了Python3的语法。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pch.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Python.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line">using namespace <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">print</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    Py_Initialize();</span><br><span class="line">    PyRun_SimpleString(<span class="string">&quot;print(&#x27;Hello World!&#x27;)\n&quot;</span>);<span class="comment">//Python3语法</span></span><br><span class="line">    Py_Finalize();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    print();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试用Python文件输出“Hello-World！”"><a href="#测试用Python文件输出“Hello-World！”" class="headerlink" title="测试用Python文件输出“Hello World！”"></a>测试用Python文件输出“Hello World！”</h2><p>定义一个Hello()，里面调用了Test001.py文件。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;pch.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;Python.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line">using namespace <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">print</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    Py_Initialize();</span><br><span class="line">    PyRun_SimpleString(<span class="string">&quot;print(&#x27;Hello Python!&#x27;)\n&quot;</span>);</span><br><span class="line">    Py_Finalize();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">Hello</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    Py_Initialize();<span class="comment">//调用Py_Initialize()进行初始化</span></span><br><span class="line">    PyObject * pModule = <span class="literal">NULL</span>;</span><br><span class="line">    PyObject * pFunc = <span class="literal">NULL</span>;</span><br><span class="line">    pModule = PyImport_ImportModule(<span class="string">&quot;Test001&quot;</span>);<span class="comment">//调用的Python文件名</span></span><br><span class="line">    pFunc = PyObject_GetAttrString(pModule, <span class="string">&quot;Hello&quot;</span>);<span class="comment">//调用的函数名</span></span><br><span class="line">    PyEval_CallObject(pFunc, <span class="literal">NULL</span>);<span class="comment">//调用函数,NULL表示参数为空</span></span><br><span class="line">    Py_Finalize();<span class="comment">//调用Py_Finalize,和Py_Initialize相对应的.</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    print();</span><br><span class="line">    Hello();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Test001.py文件内容如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">Hello</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello World!&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>注意，要把Test001.py文件放到ConsoleApplication1.exe同级目录<br><img src="https://img-blog.csdnimg.cn/2019081916354339.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20190819163559667.JPG?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzQxMjE0NjEw,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>如果一切顺利的话，那你现在已经在控制台看到输出了；如果不顺利的话，可以找找其他的博客，或者换一个方法，不要拘泥于这一个思路……<br>从今天开始，这个博客会把我之前做项目遇到的一些问题的解决办法总结一下，也算是一种积累吧，估计等我项目做完，会写成一本《扑街实录》。</p>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42063091/article/details/82418630">c#调用python的四种方法（尝试了四种，只详细讲解本人成功的后两种，其余方法只列出，详细用法请自行谷歌百度）</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/cw19901024/article/details/73526402">C#如何调用Python执行脚本，并将执行结果显示值显示至C#界面</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/Micusd/article/details/81605593">C#使用公共语言拓展（CLE）调用Python3（使用TensorFlow训练的模型）</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42388228/article/details/89681870">pythonnet c#调用并集成python代码</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/01/04/%E5%A6%82%E4%BD%95%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4PDF%E6%96%87%E4%BB%B6%E4%B8%AD%E6%89%80%E6%9C%89%E6%B3%A8%E9%87%8A:%E9%AB%98%E4%BA%AE/" rel="prev" title="如何批量删除PDF文件中所有注释/高亮">
+                  <i class="fa fa-chevron-left"></i> 如何批量删除PDF文件中所有注释/高亮
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2023/04/09/Linux%E7%B3%BB%E7%BB%9F%E6%8A%A5%E9%94%99%EF%BC%9AFailed%20to%20execute%20default%20Terminal%20Emulator.%20Input_output%20error./" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">钟昱丰</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">69k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:05</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
